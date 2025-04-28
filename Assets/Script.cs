@@ -12,10 +12,13 @@ public class Script : MonoBehaviour
     string Basico; 
     string Normal;
     string Premium;
-    int precio;
+    int precioTotal;
     int EntradaBasica = 800;
     int EntradaNormal = 12000;
     int EntradaPremium = 2000;
+    float Descuento = 15;
+    float Descuento3 = 10;
+    float PrecioRecargo;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +32,8 @@ public class Script : MonoBehaviour
         {
             Debug.Log("Tipo de entrada no valida");
         }
+
+
             
         if (CantDeEntrada > 1)
         {
@@ -39,10 +44,13 @@ public class Script : MonoBehaviour
         {
             Debug.Log("Cantidad de entradas valida");
         }
-            
+
+
+
         if (TipoDeEntrada == "p" && Prioridad == true)
         {
-            Debug.Log("Usted tiene prioridad en la fila");
+            PrecioRecargo = EntradaPremium * (Descuento / 100);
+            Debug.Log("Usted tiene prioridad en la fila, su recargo es de $" +PrecioRecargo);
         }
             
         else if (TipoDeEntrada == "b" || TipoDeEntrada == "n" || Prioridad == false)
@@ -50,15 +58,38 @@ public class Script : MonoBehaviour
             Debug.Log("Usted no tiene acceso a poder comprar prioridad en la fila");
         }
 
-        if (TipoDeEntrada == "b")
+
+
+        if (TipoDeEntrada == "b" && CantDeEntrada >= 4)
         {
-            precio = EntradaBasica;
+            precioTotal = EntradaBasica * CantDeEntrada;
+        }
+        else
+        {
+            Debug.Log("La cantidad de entradas supera el limite");
         }
 
 
-            
+        if (TipoDeEntrada == "n" && CantDeEntrada >= 6)
+        {
+            precioTotal = EntradaNormal * CantDeEntrada;
+        }
+        else
+        {
+            Debug.Log("La cantidad de entradas supera el limite");
+        }
 
-        Debug.Log("Tipo de entrada:" + TipoDeEntrada + "- cantidad: " + CantDeEntrada + "- precio total:" + precio)
+        if (TipoDeEntrada == "p")
+        {
+            precioTotal = EntradaPremium * CantDeEntrada;
+        }
+
+        if (CantDeEntrada > 3 || TipoDeEntrada == "p")
+        {
+
+        }
+
+        Debug.Log("Tipo de entrada:" + TipoDeEntrada + "- cantidad: " + CantDeEntrada + "- precio total:$" +precioTotal);
             
 
 
@@ -70,47 +101,4 @@ public class Script : MonoBehaviour
     {
         
     }
-}
-
-
-
-// Variables declaration
-public string flavourCode;
-public int iceCreamAmount;
-
-float priceByKG = 500;
-float totalPrice;
-float discountAmount;
-float totalPriceWithDiscount;
-
-
-// Start is called before the first frame update
-void Start()
-{
-    // Insert and data validation
-    if (iceCreamAmount < 250 || iceCreamAmount > 3000)
-    {
-        Debug.Log("Cantidad de helado no valida");
-        return;
-    }
-    if (flavourCode == "CHO" || flavourCode == "DDL" || flavourCode == "FRU")
-    {
-        discountAmount = 0;
-    }
-    else if (flavourCode == "FRU")
-    {
-        discountAmount = 10;
-    }
-    else
-    {
-        Debug.Log("Codigo de gusto no valido");
-        return;
-    }
-
-
-    // data prosscesing
-
-    totalPrice = iceCreamAmount * (priceByKG / 1000);
-    totalPriceWithDiscount = totalPrice * (discountAmount / 100);
-
 }
